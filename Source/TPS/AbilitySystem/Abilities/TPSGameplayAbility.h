@@ -27,6 +27,7 @@ class TPS_API UTPSGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
+	UTPSGameplayAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	ETPSAbilityActivationPolicy GetActivationPolicy() const { return ActivationPolicy; }
 
 protected:
@@ -34,4 +35,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Ability Activation")
 	ETPSAbilityActivationPolicy ActivationPolicy;
 
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
+	void SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode);
 };

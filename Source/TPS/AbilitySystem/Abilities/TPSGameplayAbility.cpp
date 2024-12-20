@@ -2,3 +2,9 @@
 
 
 #include "TPSGameplayAbility.h"
+
+UTPSGameplayAbility::UTPSGameplayAbility(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	// ActivationPolicy = ETPSAbilityActivationPolicy::OnInputTriggered;
+}

@@ -149,6 +149,7 @@ void UTPSAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGame
 				{
 					// Ability is active so pass along the input event.
 					AbilitySpecInputReleased(*AbilitySpec);
+					ServerEndAbility(AbilitySpec->Handle, AbilitySpec->ActivationInfo,AbilitySpec->ActivationInfo.GetActivationPredictionKey());
 				}
 			}
 		}

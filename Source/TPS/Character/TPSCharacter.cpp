@@ -213,7 +213,7 @@ void ATPSCharacter::Input_AbilityInputTagReleased(FGameplayTag InputTag)
 void ATPSCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	ATPSPlayerState* ps = Cast<ATPSPlayerState>(GetPlayerState());
+	ATPSPlayerState* ps = GetPlayerState<ATPSPlayerState>();
 	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
 	InitASC(AbilitySystemComponent, ps);
 
@@ -223,7 +223,7 @@ void ATPSCharacter::PossessedBy(AController* NewController)
 void ATPSCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
-	TObjectPtr<ATPSPlayerState> ps = Cast<ATPSPlayerState>(GetPlayerState());
+	TObjectPtr<ATPSPlayerState> ps = GetPlayerState<ATPSPlayerState>();
 	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
 	InitASC(AbilitySystemComponent, ps);
 
