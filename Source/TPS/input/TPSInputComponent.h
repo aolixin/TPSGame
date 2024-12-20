@@ -60,7 +60,7 @@ void UTPSInputComponent::BindAbilityActions(const UTPSInputConfig* InputConfig, 
 											TArray<uint32>& BindHandles)
 {
 	check(InputConfig);
-
+	
 	for (const FTPSInputAction& Action : InputConfig->AbilityInputActions)
 	{
 		if (Action.InputAction && Action.InputTag.IsValid())

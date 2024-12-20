@@ -12,6 +12,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "TPS/TPSGameplayTags.h"
+#include "TPS/AbilitySystem/TPSAbilitySet.h"
 #include "TPS/input/TPSInputComponent.h"
 #include "TPS/Player/ATPSPlayerState.h"
 
@@ -95,6 +96,9 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		// // Fire
 		// InputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &ATPSCharacter::Fire);
 
+		check(InputConfig);
+		if (InputConfig == nullptr)return;
+		
 		tpsInputComponent->BindNativeAction(InputConfig.Get(), TPSGameplayTags::InputTag_Move, ETriggerEvent::Triggered,
 		                                    this, &ThisClass::Move, true);
 
@@ -106,7 +110,7 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 		TArray<uint32> BindHandles;
 		tpsInputComponent->BindAbilityActions(InputConfig.Get(), this, &ThisClass::Input_AbilityInputTagPressed,
-		                                      Input_AbilityInputTagReleased, BindHandles);
+		                                      &ThisClass::Input_AbilityInputTagReleased, BindHandles);
 	}
 	else
 	{
@@ -193,23 +197,41 @@ void ATPSCharacter::Input_AbilityInputTagPressed(FGameplayTag InputTag)
 	// get ability system
 	if (AbilitySystemComponent)
 	{
+		AbilitySystemComponent->AbilityInputTagPressed(InputTag);
 	}
 }
 
 void ATPSCharacter::Input_AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	// get ability system
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->AbilityInputTagReleased(InputTag);
+	}
 }
 
+void ATPSCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	ATPSPlayerState* ps = Cast<ATPSPlayerState>(GetPlayerState());
+	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
+	InitASC(AbilitySystemComponent, ps);
+
+	AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
+}
 
 void ATPSCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	TObjectPtr<ATPSPlayerState> ps = Cast<ATPSPlayerState>(GetPlayerState());
-	AbilitySystemComponent = ps->GetAbilitySystemComponent();
+	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
 	InitASC(AbilitySystemComponent, ps);
+
+	// for ()
+	// AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 }
 
-void ATPSCharacter::InitASC(UAbilitySystemComponent* InASC, AActor* InOwnerActor)
+void ATPSCharacter::InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor)
 {
 	InASC->InitAbilityActorInfo(InOwnerActor, this);
 }
