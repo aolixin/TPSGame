@@ -35,6 +35,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Ability Activation")
 	ETPSAbilityActivationPolicy ActivationPolicy;
 
-	UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
-	void SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode);
+	// UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
+	// void SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode);
 };

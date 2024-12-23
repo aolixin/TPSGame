@@ -96,8 +96,12 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		// // Fire
 		// InputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &ATPSCharacter::Fire);
 
+		if (InputConfig == nullptr)
+		{
+			InputConfig.LoadSynchronous();
+		}
 		check(InputConfig);
-		if (InputConfig == nullptr)return;
+		
 		
 		tpsInputComponent->BindNativeAction(InputConfig.Get(), TPSGameplayTags::InputTag_Move, ETriggerEvent::Triggered,
 		                                    this, &ThisClass::Move, true);
