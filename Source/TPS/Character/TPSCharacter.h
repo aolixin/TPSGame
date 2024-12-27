@@ -9,6 +9,8 @@
 #include "TPS/AbilitySystem/TPSAbilitySystemComponent.h"
 #include "TPS/Attributes/TPSAttributeSet.h"
 #include "TPS/input/TPSInputComponent.h"
+#include "TPS/Camera/TPSCameraComponent.h"
+#include "TPS/Test/TestSceneComponent.h"
 
 #include "TPSCharacter.generated.h"
 
@@ -37,7 +39,7 @@ class TPS_API ATPSCharacter : public ACharacter, public IAbilitySystemInterface,
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCameraComponent> FollowCamera;
+	TObjectPtr<UTPSCameraComponent> FollowCamera;
 
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))

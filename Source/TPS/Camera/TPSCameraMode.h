@@ -9,13 +9,14 @@
 /**
  * 
  */
-UCLASS(NotBlueprintable)
+UCLASS(Blueprintable)
 class TPS_API UTPSCameraMode : public UObject
 {
 	GENERATED_BODY()
 public:
 	UTPSCameraMode();
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Location;
 	
 };

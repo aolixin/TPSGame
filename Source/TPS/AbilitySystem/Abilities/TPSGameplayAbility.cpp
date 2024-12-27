@@ -17,6 +17,9 @@ void UTPSGameplayAbility::SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode)
 {
 	TObjectPtr<ATPSCharacter> character = Cast<ATPSCharacter>(CurrentActorInfo->AvatarActor.Get());
 	if (character == nullptr)return;
+	// TObjectPtr<UTPSCameraComponent> CameraComponent = character->FindComponentByClass<UTPSCameraComponent>();
+	// if (CameraComponent == nullptr)return;
+	// CameraComponent->SetCameraMode(CameraMode);
 	TObjectPtr<UCameraComponent> CameraComponent = character->FindComponentByClass<UCameraComponent>();
 	if (CameraComponent == nullptr)return;
 	CameraComponent->SetRelativeLocation(CameraMode.GetDefaultObject()->Location);
