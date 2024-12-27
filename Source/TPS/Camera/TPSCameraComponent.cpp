@@ -7,6 +7,7 @@
 
 void UTPSCameraComponent::GetCameraView(float DeltaTime, FMinimalViewInfo& DesiredView)
 {
+	// UE_LOG(LogTemp, Warning, TEXT("Location: %s"), *GetRelativeLocation().ToString());
 	if (SrcCameraMode == nullptr)
 	{
 		InitCameraMode(DefaultCameraMode);
@@ -15,29 +16,38 @@ void UTPSCameraComponent::GetCameraView(float DeltaTime, FMinimalViewInfo& Desir
 	}
 	if (DestCameraMode == nullptr)
 	{
-		DesiredView.Location = SrcCameraMode->Location;
 		Super::GetCameraView(DeltaTime, DesiredView);
 		return;
 	}
 	if (SrcCameraMode == DestCameraMode)
 	{
 		DestCameraMode = nullptr;
+		SwitchTime = 0;
 		Super::GetCameraView(DeltaTime, DesiredView);
 		return;
 	}
-	SwitchTime += DeltaTime;
-	if (SwitchTime >= SwitchDuration)
+	SwitchTime += DeltaTime * (float)dir;
+	if (SwitchTime < 0)
 	{
-		SrcCameraMode = DestCameraMode;
-		DesiredView.Location = SrcCameraMode->Location;
-		DestCameraMode = nullptr;
 		SwitchTime = 0;
+		ClearAdditiveOffset();
+		AddAdditiveOffset(FTransform(SrcCameraMode->Location), 0);
+		DestCameraMode = nullptr;
+		Super::GetCameraView(DeltaTime, DesiredView);
+		return;
 	}
-	else
+	else if (SwitchTime > SwitchDuration)
 	{
-		float Alpha = SwitchTime / SwitchDuration;
-		DesiredView.Location = FMath::Lerp(SrcCameraMode->Location, DestCameraMode->Location, Alpha);
+		SwitchTime = SwitchDuration;
+		ClearAdditiveOffset();
+		AddAdditiveOffset(FTransform(DestCameraMode->Location), 0);
+		Super::GetCameraView(DeltaTime, DesiredView);
+		return;
 	}
+
+	FVector dis = DestCameraMode->Location - SrcCameraMode->Location;
+	AddAdditiveOffset(FTransform(dis * DeltaTime / SwitchDuration * (float)dir), 0);
+
 	Super::GetCameraView(DeltaTime, DesiredView);
 }
 
@@ -45,6 +55,7 @@ void UTPSCameraComponent::InitCameraMode(TSubclassOf<UTPSCameraMode> CameraMode)
 {
 	SrcCameraMode = CameraMode.GetDefaultObject();
 	DestCameraMode = nullptr;
+	AddAdditiveOffset(FTransform(SrcCameraMode->Location), 0);
 	SwitchTime = 0;
 }
 
@@ -52,11 +63,10 @@ void UTPSCameraComponent::SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode)
 {
 	if (CameraMode == nullptr)return;
 	DestCameraMode = CameraMode.GetDefaultObject();
-	SwitchTime = 0;
+	dir = 1;
 }
 
 void UTPSCameraComponent::ClearCameraMode()
 {
-	DestCameraMode = nullptr;
-	SwitchTime = 0;
+	dir = -1;
 }

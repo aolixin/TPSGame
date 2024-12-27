@@ -38,4 +38,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode);
+
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	void ClearCameraMode();
+
 };

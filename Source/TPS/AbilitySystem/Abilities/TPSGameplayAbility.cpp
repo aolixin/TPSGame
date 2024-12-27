@@ -17,11 +17,19 @@ void UTPSGameplayAbility::SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode)
 {
 	TObjectPtr<ATPSCharacter> character = Cast<ATPSCharacter>(CurrentActorInfo->AvatarActor.Get());
 	if (character == nullptr)return;
-	// TObjectPtr<UTPSCameraComponent> CameraComponent = character->FindComponentByClass<UTPSCameraComponent>();
-	// if (CameraComponent == nullptr)return;
-	// CameraComponent->SetCameraMode(CameraMode);
-	TObjectPtr<UCameraComponent> CameraComponent = character->FindComponentByClass<UCameraComponent>();
+	TObjectPtr<UTPSCameraComponent> CameraComponent = character->FindComponentByClass<UTPSCameraComponent>();
 	if (CameraComponent == nullptr)return;
-	CameraComponent->SetRelativeLocation(CameraMode.GetDefaultObject()->Location);
+	CameraComponent->SetCameraMode(CameraMode);
+	UE_LOG(LogTemp, Log, TEXT("---------------------------------------"));
+	
+}
+
+void UTPSGameplayAbility::ClearCameraMode()
+{
+	TObjectPtr<ATPSCharacter> character = Cast<ATPSCharacter>(CurrentActorInfo->AvatarActor.Get());
+	if (character == nullptr)return;
+	TObjectPtr<UTPSCameraComponent> CameraComponent = character->FindComponentByClass<UTPSCameraComponent>();
+	if (CameraComponent == nullptr)return;
+	CameraComponent->ClearCameraMode();
 	
 }

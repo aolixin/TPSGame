@@ -37,4 +37,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= CameraMode)
 	float SwitchDuration;
+	
+	UPROPERTY()
+	int dir = 1;
 };
