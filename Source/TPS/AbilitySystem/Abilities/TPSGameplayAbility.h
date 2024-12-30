@@ -42,4 +42,14 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ClearCameraMode();
 
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	USkeletalMeshComponent* GetOwnerSkeletalMeshComponent();
+
+	UFUNCTION(BlueprintCallable)
+	void StartWeaponTargeting();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnRangedWeaponTargetDataReady(const FGameplayAbilityTargetDataHandle& TargetData);
+	
+
 };

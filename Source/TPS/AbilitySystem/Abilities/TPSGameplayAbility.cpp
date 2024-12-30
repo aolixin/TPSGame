@@ -33,3 +33,17 @@ void UTPSGameplayAbility::ClearCameraMode()
 	CameraComponent->ClearCameraMode();
 	
 }
+
+USkeletalMeshComponent* UTPSGameplayAbility::GetOwnerSkeletalMeshComponent()
+{
+	TObjectPtr<ATPSCharacter> character = Cast<ATPSCharacter>(CurrentActorInfo->AvatarActor.Get());
+	if (character == nullptr)return nullptr;
+	return character->GetMesh();
+}
+
+void UTPSGameplayAbility::StartWeaponTargeting()
+{
+	AActor* AvatarActor = CurrentActorInfo->AvatarActor.Get();
+	
+}
+

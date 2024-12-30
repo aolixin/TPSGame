@@ -7,10 +7,9 @@
 #include "GameplayTagAssetInterface.h"
 #include "GameFramework/Character.h"
 #include "TPS/AbilitySystem/TPSAbilitySystemComponent.h"
-#include "TPS/Attributes/TPSAttributeSet.h"
 #include "TPS/input/TPSInputComponent.h"
 #include "TPS/Camera/TPSCameraComponent.h"
-#include "TPS/Test/TestSceneComponent.h"
+#include "TPS/Weapon/WeaponComponent.h"
 
 #include "TPSCharacter.generated.h"
 
@@ -21,9 +20,11 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class UTPSPawnExtensionComponent;
+class UWeaponComponent;
 
 struct FGameplayTagContainer;
 struct FGameplayTag;
+
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -78,11 +79,16 @@ class TPS_API ATPSCharacter : public ACharacter, public IAbilitySystemInterface,
 
 	UPROPERTY(VisibleAnywhere, Transient)
 	TObjectPtr<UTPSAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWeaponComponent>WeaponComponent;
 
 public:
 	ATPSCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UTPSAbilitySystemComponent* GetTPSAbilitySystemComponent() const;
+	
 
 	UFUNCTION(BlueprintCallable, Category = "Ability System")
 	void GiveAbility(TSubclassOf<UGameplayAbility> Ability);

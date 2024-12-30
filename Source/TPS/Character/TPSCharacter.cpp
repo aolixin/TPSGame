@@ -63,6 +63,10 @@ ATPSCharacter::ATPSCharacter(const FObjectInitializer& ObjectInitializer): Super
 
 	// TestComp = CreateDefaultSubobject<UTestSceneComponent>(TEXT("TestComp"));
 	// TestComp->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("WeaponComponent"));
+	WeaponComponent->SetupAttachment(RootComponent);
+	
 }
 
 void ATPSCharacter::BeginPlay()
@@ -170,6 +174,11 @@ void ATPSCharacter::Look(const FInputActionValue& Value)
 UAbilitySystemComponent* ATPSCharacter::GetAbilitySystemComponent() const
 {
 	return Cast<ATPSPlayerState>(GetPlayerState())->GetAbilitySystemComponent();
+}
+
+UTPSAbilitySystemComponent* ATPSCharacter::GetTPSAbilitySystemComponent()const
+{
+	return Cast<UTPSAbilitySystemComponent>(GetAbilitySystemComponent());
 }
 
 void ATPSCharacter::GiveAbility(TSubclassOf<UGameplayAbility> Ability)
