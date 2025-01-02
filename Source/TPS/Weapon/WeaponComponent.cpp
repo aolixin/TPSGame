@@ -36,22 +36,33 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UWeaponComponent::AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName SocketName) const
+void UWeaponComponent::AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName SocketName)
 {
 	if (Instance)
 	{
 		ATPSCharacter *Character = Cast<ATPSCharacter>(GetOwner());
-		AWeaponInstance* Weapon = GetWorld()->SpawnActor<AWeaponInstance>( Instance);
-		if (Weapon)
+		CurrentWeapon = GetWorld()->SpawnActor<AWeaponInstance>( Instance);
+		if (CurrentWeapon)
 		{
 			USkeletalMeshComponent* Mesh = Character->FindComponentByClass<USkeletalMeshComponent>();
-			Weapon->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetIncludingScale, SocketName);
-			if (Weapon->AbilitySet)
+			CurrentWeapon->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetIncludingScale, SocketName);
+			if (CurrentWeapon->AbilitySet)
 			{
 				UTPSAbilitySystemComponent *ASC = Character->GetTPSAbilitySystemComponent();
-				Weapon->AbilitySet->GiveToAbilitySystem(ASC, nullptr, Weapon);
+				CurrentWeapon->AbilitySet->GiveToAbilitySystem(ASC, nullptr, CurrentWeapon);
 			}
 		}
-
 	}
+}
+
+AWeaponInstance* UWeaponComponent::GetCurrentWeapon()
+{
+	return CurrentWeapon.Get();
+}
+
+FTransform UWeaponComponent::GetWeaponTransform(FName SocketName)
+{
+	if (CurrentWeapon == nullptr)return FTransform::Identity;
+	USkeletalMeshComponent* Mesh = CurrentWeapon->FindComponentByClass<USkeletalMeshComponent>();
+	return Mesh->GetSocketTransform(SocketName);
 }

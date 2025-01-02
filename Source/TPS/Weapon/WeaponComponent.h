@@ -27,5 +27,14 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
-	void AttachWeapon(TSubclassOf<AWeaponInstance>Instance, FName SocketName) const;
+	void AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName SocketName);
+
+	UFUNCTION(BlueprintCallable)
+	AWeaponInstance* GetCurrentWeapon();
+
+	UFUNCTION()
+	FTransform GetWeaponTransform(FName SocketName);
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	TObjectPtr<AWeaponInstance> CurrentWeapon;
 };

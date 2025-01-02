@@ -11,6 +11,7 @@ namespace TPSGameplayTags
 
 
 	TPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Fire);
+	TPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Grenade);
 	TPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Aim);
 
 	

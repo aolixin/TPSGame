@@ -46,6 +46,7 @@ void UTPSGameplayAbility::StartWeaponTargeting()
 	if (AvatarActor == nullptr || ASC == nullptr)return;
 
 	UTPSCameraComponent* CameraComponent = AvatarActor->FindComponentByClass<UTPSCameraComponent>();
+	UWeaponComponent* WeaponComponent = AvatarActor->FindComponentByClass<UWeaponComponent>();
 	if (CameraComponent == nullptr)return;
 
 	// print camera location
@@ -73,13 +74,21 @@ void UTPSGameplayAbility::StartWeaponTargeting()
 	CollisionParams.AddIgnoredActor(AvatarActor); // 忽略自身
 
 	bool bHit = GetWorld()->LineTraceSingleByChannel(result, Start, End, ECC_Visibility, CollisionParams);
-	
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1, 0, 1);
+
+	if (!bHit) return;
+
+	// get the hit location
+
+
+	// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1, 0, 1);
 
 	FGameplayAbilityTargetDataHandle targetData;
-	if (bHit)
-	{
-		targetData.Add(new FGameplayAbilityTargetData_SingleTargetHit(result)); // 假设你使用单个目标
-	}
+	targetData.Add(new FGameplayAbilityTargetData_SingleTargetHit(result)); // 假设你使用单个目标
+
+	FVector WeaponStart = WeaponComponent->GetWeaponTransform("Muzzle").GetLocation();
+	FVector HitLocation = result.ImpactPoint;
+
+	DrawDebugLine(GetWorld(), WeaponStart, HitLocation, FColor::Red, false, 1, 0, 1);
+
 	OnRangedWeaponTargetDataReady(targetData);
 }

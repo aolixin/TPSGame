@@ -9,6 +9,7 @@ namespace TPSGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Aim, "InputTag.Weapon.Aim");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Grenade, "InputTag.Grenade");
 	
 	
 }

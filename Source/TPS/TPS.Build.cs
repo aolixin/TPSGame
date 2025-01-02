@@ -11,7 +11,7 @@ public class TPS : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities", "GameplayTags",
-			"GameplayTasks"
+			"GameplayTasks","Niagara"
 		});
 	}
 }

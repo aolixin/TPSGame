@@ -233,9 +233,11 @@ void ATPSCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	ATPSPlayerState* ps = GetPlayerState<ATPSPlayerState>();
+	if (ps == nullptr)return;
 	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
+	if (AbilitySystemComponent == nullptr)return;
+	
 	InitASC(AbilitySystemComponent, ps);
-
 	AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 }
 
