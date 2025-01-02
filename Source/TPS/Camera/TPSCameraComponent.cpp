@@ -70,3 +70,12 @@ void UTPSCameraComponent::ClearCameraMode()
 {
 	dir = -1;
 }
+
+FTransform UTPSCameraComponent::GetAdditiveOffsetTransform()const
+{
+	FTransform trans;
+	float fov;
+	GetAdditiveOffset(trans, fov);
+	// trans = AdditiveOffset;
+	return trans;
+}

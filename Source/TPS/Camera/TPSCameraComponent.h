@@ -23,6 +23,8 @@ public:
 	void SetCameraMode(TSubclassOf<UTPSCameraMode> CameraMode);
 	void ClearCameraMode();
 
+	FTransform GetAdditiveOffsetTransform() const;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= CameraMode)
 	TSubclassOf<UTPSCameraMode> DefaultCameraMode;
 
