@@ -92,3 +92,10 @@ void UTPSGameplayAbility::StartWeaponTargeting()
 
 	OnRangedWeaponTargetDataReady(targetData);
 }
+
+
+ATPSCharacter* UTPSGameplayAbility::GetTPCCharacter()
+{
+	AActor* AvatarActor = CurrentActorInfo->AvatarActor.Get();
+	return Cast<ATPSCharacter>(AvatarActor);
+}

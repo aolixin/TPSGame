@@ -5,8 +5,10 @@
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
 #include "TPS/Camera/TPSCameraMode.h"
+// #include "TPS/Character/TPSCharacter.h"
 #include "TPSGameplayAbility.generated.h"
 
+class ATPSCharacter;
 
 
 UENUM(BlueprintType)
@@ -33,7 +35,7 @@ public:
 
 protected:
 	// Defines how this ability is meant to activate.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Ability Activation")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Activation")
 	ETPSAbilityActivationPolicy ActivationPolicy;
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
@@ -51,5 +53,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnRangedWeaponTargetDataReady(const FGameplayAbilityTargetDataHandle& TargetData);
 	
+	UFUNCTION(BlueprintCallable)
+	ATPSCharacter* GetTPCCharacter();
 
 };
