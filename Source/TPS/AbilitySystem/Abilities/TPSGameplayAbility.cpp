@@ -75,7 +75,7 @@ void UTPSGameplayAbility::StartWeaponTargeting()
 	FVector dir = AdditiveOffsetTransform.TransformVector(FVector(1, 0, 0));
 	dir = CameraTransform.TransformVector(dir);
 
-	FVector End = Start + dir * 1000; // 1000 is the distance
+	FVector End = Start + dir * 10000; // 1000 is the distance
 
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(AvatarActor); // 忽略自身
@@ -119,7 +119,7 @@ void UTPSGameplayAbility::StartAIWeaponTargeting()
 
 	FVector Start = AvatarActor->GetActorLocation();
 
-	FVector End = Start + AvatarActor->GetActorForwardVector() * 1000; // 1000 is the distance
+	FVector End = Start + AvatarActor->GetActorForwardVector() * 10000; // 1000 is the distance
 
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(AvatarActor); // 忽略自身
