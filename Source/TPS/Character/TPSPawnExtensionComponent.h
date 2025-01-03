@@ -15,7 +15,7 @@ public:
 	UTPSPawnExtensionComponent(const FObjectInitializer& ObjectInitializer);
 
 	/** Gets the current ability system component, which may be owned by a different actor */
-	UFUNCTION(BlueprintPure, Category = "Lyra|Pawn")
+	UFUNCTION(BlueprintPure, Category = "Pawn")
 	UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
 
 	void InitializeAbilitySystem(UAbilitySystemComponent* InASC, AActor* InOwnerActor);

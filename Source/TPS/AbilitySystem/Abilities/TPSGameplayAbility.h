@@ -49,6 +49,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void StartWeaponTargeting();
+
+	UFUNCTION(BlueprintCallable)
+	void StartAIWeaponTargeting();
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnRangedWeaponTargetDataReady(const FGameplayAbilityTargetDataHandle& TargetData);

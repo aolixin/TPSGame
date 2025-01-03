@@ -7,6 +7,7 @@
 #include "GameplayTagAssetInterface.h"
 #include "GameFramework/Character.h"
 #include "TPS/AbilitySystem/TPSAbilitySystemComponent.h"
+#include "TPS/Backpack/BackpackComponent.h"
 #include "TPS/input/TPSInputComponent.h"
 #include "TPS/Camera/TPSCameraComponent.h"
 #include "TPS/Weapon/WeaponComponent.h"
@@ -83,11 +84,14 @@ class TPS_API ATPSCharacter : public ACharacter, public IAbilitySystemInterface,
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent>WeaponComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UBackpackComponent>BackpackComponent;
+
 public:
 	ATPSCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	UTPSAbilitySystemComponent* GetTPSAbilitySystemComponent() const;
+	virtual UTPSAbilitySystemComponent* GetTPSAbilitySystemComponent() const;
 	
 
 	UFUNCTION(BlueprintCallable, Category = "Ability System")

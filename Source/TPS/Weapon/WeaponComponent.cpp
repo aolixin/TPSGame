@@ -36,7 +36,7 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UWeaponComponent::AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName SocketName)
+AWeaponInstance* UWeaponComponent::AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName SocketName)
 {
 	if (Instance)
 	{
@@ -51,8 +51,10 @@ void UWeaponComponent::AttachWeapon(TSubclassOf<AWeaponInstance> Instance, FName
 				UTPSAbilitySystemComponent *ASC = Character->GetTPSAbilitySystemComponent();
 				CurrentWeapon->AbilitySet->GiveToAbilitySystem(ASC, nullptr, CurrentWeapon);
 			}
+			return CurrentWeapon;
 		}
 	}
+	return nullptr;
 }
 
 AWeaponInstance* UWeaponComponent::GetCurrentWeapon()

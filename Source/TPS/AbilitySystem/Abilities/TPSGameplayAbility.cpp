@@ -39,6 +39,13 @@ USkeletalMeshComponent* UTPSGameplayAbility::GetOwnerSkeletalMeshComponent()
 	return character->GetMesh();
 }
 
+ATPSCharacter* UTPSGameplayAbility::GetTPCCharacter()
+{
+	AActor* AvatarActor = CurrentActorInfo->AvatarActor.Get();
+	return Cast<ATPSCharacter>(AvatarActor);
+}
+
+
 void UTPSGameplayAbility::StartWeaponTargeting()
 {
 	AActor* AvatarActor = CurrentActorInfo->AvatarActor.Get();
@@ -93,9 +100,39 @@ void UTPSGameplayAbility::StartWeaponTargeting()
 	OnRangedWeaponTargetDataReady(targetData);
 }
 
-
-ATPSCharacter* UTPSGameplayAbility::GetTPCCharacter()
+void UTPSGameplayAbility::StartAIWeaponTargeting()
 {
 	AActor* AvatarActor = CurrentActorInfo->AvatarActor.Get();
-	return Cast<ATPSCharacter>(AvatarActor);
+	UAbilitySystemComponent* ASC = CurrentActorInfo->AbilitySystemComponent.Get();
+	if (AvatarActor == nullptr || ASC == nullptr)return;
+
+	// UTPSCameraComponent* CameraComponent = AvatarActor->FindComponentByClass<UTPSCameraComponent>();
+	UWeaponComponent* WeaponComponent = AvatarActor->FindComponentByClass<UWeaponComponent>();
+	// if (CameraComponent == nullptr)return;
+
+	// print camera location
+	// print player location
+	UE_LOG(LogTemp, Warning, TEXT("Player Location: %s"), *AvatarActor->GetActorLocation().ToString());
+
+
+	FHitResult result;
+
+	FVector Start = AvatarActor->GetActorLocation();
+
+	FVector End = Start + AvatarActor->GetActorForwardVector() * 1000; // 1000 is the distance
+
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(AvatarActor); // 忽略自身
+
+	bool bHit = GetWorld()->LineTraceSingleByChannel(result, Start, End, ECC_Visibility, CollisionParams);
+
+	if (!bHit) return;
+
+	FGameplayAbilityTargetDataHandle targetData;
+	targetData.Add(new FGameplayAbilityTargetData_SingleTargetHit(result)); // 假设你使用单个目标
+
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1, 0, 1);
+
+	OnRangedWeaponTargetDataReady(targetData);
 }
+

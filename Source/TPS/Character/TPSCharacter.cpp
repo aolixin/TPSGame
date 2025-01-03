@@ -66,6 +66,9 @@ ATPSCharacter::ATPSCharacter(const FObjectInitializer& ObjectInitializer): Super
 
 	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("WeaponComponent"));
 	WeaponComponent->SetupAttachment(RootComponent);
+
+	BackpackComponent = CreateDefaultSubobject<UBackpackComponent>(TEXT("BackpackComponent"));
+	BackpackComponent->SetupAttachment(RootComponent);
 	
 }
 
@@ -93,18 +96,6 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	// Set up action bindings
 	if (TObjectPtr<UTPSInputComponent> tpsInputComponent = Cast<UTPSInputComponent>(PlayerInputComponent))
 	{
-		// Jumping
-		// InputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		// InputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-		//
-		// // Moving
-		// tpsInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATPSCharacter::Move);
-		//
-		// // Looking
-		// InputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATPSCharacter::Look);
-		//
-		// // Fire
-		// InputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &ATPSCharacter::Fire);
 
 		if (InputConfig == nullptr)
 		{
