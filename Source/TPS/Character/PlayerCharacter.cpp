@@ -103,3 +103,9 @@ void APlayerCharacter::InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwne
 {
 	InASC->InitAbilityActorInfo(InOwnerActor, this);
 }
+
+void APlayerCharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	Super::GetOwnedGameplayTags(TagContainer);
+	TagContainer.AddTag(TPSGameplayTags::Actor_Character_Player);
+}

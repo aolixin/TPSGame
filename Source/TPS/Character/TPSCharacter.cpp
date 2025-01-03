@@ -4,17 +4,14 @@
 
 #include "AbilitySystemComponent.h"
 #include "Engine/LocalPlayer.h"
-#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
-#include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "TPS/TPSGameplayTags.h"
 #include "TPS/AbilitySystem/TPSAbilitySet.h"
-#include "TPS/input/TPSInputComponent.h"
 #include "TPS/Player/ATPSPlayerState.h"
+#include "TPS/TPSGameplayTags.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -54,7 +51,6 @@ ATPSCharacter::ATPSCharacter(const FObjectInitializer& ObjectInitializer): Super
 
 	BackpackComponent = CreateDefaultSubobject<UBackpackComponent>(TEXT("BackpackComponent"));
 	BackpackComponent->SetupAttachment(RootComponent);
-	
 }
 
 void ATPSCharacter::BeginPlay()
@@ -65,7 +61,6 @@ void ATPSCharacter::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 
 
 void ATPSCharacter::Move(const FInputActionValue& Value)
@@ -110,7 +105,8 @@ UAbilitySystemComponent* ATPSCharacter::GetAbilitySystemComponent() const
 	return nullptr;
 	// return Cast<ATPSPlayerState>(GetPlayerState())->GetAbilitySystemComponent();
 }
-UTPSAbilitySystemComponent* ATPSCharacter::GetTPSAbilitySystemComponent()const
+
+UTPSAbilitySystemComponent* ATPSCharacter::GetTPSAbilitySystemComponent() const
 {
 	return nullptr;
 	// return Cast<UTPSAbilitySystemComponent>(GetAbilitySystemComponent());
@@ -128,22 +124,10 @@ void ATPSCharacter::GiveAbility(TSubclassOf<UGameplayAbility> Ability)
 
 void ATPSCharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
 {
+	TagContainer.Reset();
+	TagContainer.AddTag(TPSGameplayTags::Actor_Character);
 }
 
-bool ATPSCharacter::HasMatchingGameplayTag(FGameplayTag TagToCheck) const
-{
-	return false;
-}
-
-bool ATPSCharacter::HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
-{
-	return false;
-}
-
-bool ATPSCharacter::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
-{
-	return false;
-}
 
 
 void ATPSCharacter::Input_AbilityInputTagPressed(FGameplayTag InputTag)
@@ -171,9 +155,10 @@ void ATPSCharacter::PossessedBy(AController* NewController)
 	if (ps == nullptr)return;
 	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
 	if (AbilitySystemComponent == nullptr)return;
-	
+
 	InitASC(AbilitySystemComponent, ps);
-	AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
+	if (AbilitySet != nullptr)
+		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 }
 
 void ATPSCharacter::OnRep_PlayerState()
@@ -182,7 +167,6 @@ void ATPSCharacter::OnRep_PlayerState()
 	TObjectPtr<ATPSPlayerState> ps = GetPlayerState<ATPSPlayerState>();
 	AbilitySystemComponent = ps->GetTPSAbilitySystemComponent();
 	InitASC(AbilitySystemComponent, ps);
-
 }
 
 void ATPSCharacter::InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor)

@@ -3,6 +3,8 @@
 
 #include "AICharacter.h"
 
+#include "TPS/TPSGameplayTags.h"
+
 
 // Sets default values
 AAICharacter::AAICharacter(const FObjectInitializer& ObjectInitializer ):Super(ObjectInitializer)
@@ -48,4 +50,9 @@ UTPSAbilitySystemComponent* AAICharacter::GetTPSAbilitySystemComponent() const
 void AAICharacter::InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor)
 {
 	InASC->InitAbilityActorInfo(this, this);
+}
+void AAICharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	Super::GetOwnedGameplayTags(TagContainer);
+	TagContainer.AddTag(TPSGameplayTags::Actor_Character_AI);
 }

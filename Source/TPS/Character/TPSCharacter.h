@@ -56,9 +56,9 @@ public:
 	void GiveAbility(TSubclassOf<UGameplayAbility> Ability);
 
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
-	virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
-	virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
-	virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+	// virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
+	// virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+	// virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
