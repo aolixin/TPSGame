@@ -5,10 +5,16 @@
 
 
 // Sets default values
-AAICharacter::AAICharacter()
+AAICharacter::AAICharacter(const FObjectInitializer& ObjectInitializer ):Super(ObjectInitializer)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	// init ability system component
+	AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<UTPSAbilitySystemComponent>(
+		this, TEXT("AbilitySystemComponent"));
+
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
 
 // Called when the game starts or when spawned
@@ -30,11 +36,16 @@ void AAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-UAbilitySystemComponent* AAICharacter::GetAbilitySystemComponent() const override
+UAbilitySystemComponent* AAICharacter::GetAbilitySystemComponent() const 
 {
-	return nullptr;
+	return AbilitySystemComponent;
 }
-UTPSAbilitySystemComponent* AAICharacter::GetTPSAbilitySystemComponent() const override
+UTPSAbilitySystemComponent* AAICharacter::GetTPSAbilitySystemComponent() const 
 {
-	return nullptr;
+	return Cast<UTPSAbilitySystemComponent>(AbilitySystemComponent);
+}
+
+void AAICharacter::InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor)
+{
+	InASC->InitAbilityActorInfo(this, this);
 }

@@ -3,6 +3,8 @@
 
 #include "TPSInputConfig.h"
 
+#include "InputAction.h"
+
 const UInputAction* UTPSInputConfig::FindNativeInputActionForTag(const FGameplayTag& InputTag, bool bLogNotFound) const
 {
 	for (const FTPSInputAction& Action : NativeInputActions)

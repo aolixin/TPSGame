@@ -21,7 +21,7 @@ UBackpackComponent::UBackpackComponent()
 void UBackpackComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	// get weapon component
 	UWeaponComponent* WeaponComponent = GetOwner()->FindComponentByClass<UWeaponComponent>();
 

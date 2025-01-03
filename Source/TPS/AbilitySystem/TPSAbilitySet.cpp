@@ -26,6 +26,7 @@ void UTPSAbilitySet::GiveToAbilitySystem(UTPSAbilitySystemComponent* ASC,
                                          UObject* SourceObject) const
 {
 	check(ASC);
+	if (ASC == nullptr)return;
 	for (int32 AbilityIndex = 0; AbilityIndex < GrantedGameplayAbilities.Num(); ++AbilityIndex)
 	{
 		const FTPSAbilitySet_GameplayAbility& AbilityToGrant = GrantedGameplayAbilities[AbilityIndex];

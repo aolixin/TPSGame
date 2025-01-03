@@ -13,7 +13,7 @@ class TPS_API AAICharacter : public ATPSCharacter
 
 public:
 	// Sets default values for this character's properties
-	AAICharacter();
+	AAICharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,4 +28,6 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UTPSAbilitySystemComponent* GetTPSAbilitySystemComponent() const override;
+
+	virtual void InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor) override;
 };

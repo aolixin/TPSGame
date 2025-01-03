@@ -35,51 +35,9 @@ class TPS_API ATPSCharacter : public ACharacter, public IAbilitySystemInterface,
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USpringArmComponent> CameraBoom;
-
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UTPSCameraComponent> FollowCamera;
-
-	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;
-
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> JumpAction;
-
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> MoveAction;
-
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> LookAction;
-
-	/** Fire Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> FireAction;
-
-	/** Fire Aim Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> FireAimAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=input, Meta=(AllowPrivateAccess="true"))
-	TSoftObjectPtr<UTPSInputConfig> InputConfig;
-
 	// Ability sets to grant to this pawn's ability system.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities", Meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UTPSAbilitySet> AbilitySet;
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UTPSPawnExtensionComponent> PawnExtComponent;
-
-	UPROPERTY(VisibleAnywhere, Transient)
-	TObjectPtr<UTPSAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent>WeaponComponent;
@@ -104,9 +62,13 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
-	void InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor);
+	virtual void InitASC(UTPSAbilitySystemComponent* InASC, AActor* InOwnerActor);
 
 protected:
+
+	UPROPERTY(VisibleAnywhere, Transient)
+	TObjectPtr<UTPSAbilitySystemComponent> AbilitySystemComponent;
+	
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
@@ -117,15 +79,11 @@ protected:
 	void Input_AbilityInputTagReleased(FGameplayTag InputTag);
 
 protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 	// To add mapping context
 	virtual void BeginPlay();
 
 public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
 };
