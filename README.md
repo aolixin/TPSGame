@@ -85,9 +85,94 @@ GA 定义具体的行为
 
 
 
+其中 Input Config 和 Ability Set 定义如下
+
+```
+USTRUCT(BlueprintType)
+struct FTPSInputAction
+{
+    GENERATED_BODY()
+public:
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<const UInputAction> InputAction = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayTag InputTag;
+};
+
+UCLASS()
+class TPS_API UTPSInputConfig : public UDataAsset
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintCallable)
+    const UInputAction* FindNativeInputActionForTag(const FGameplayTag& InputTag, bool bLogNotFound = true) const;
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TArray<FTPSInputAction> NativeInputActions;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TArray<FTPSInputAction> AbilityInputActions;
+};
+```
 
 
 
+
+
+```
+USTRUCT(BlueprintType)
+struct FTPSAbilitySet_GameplayAbility
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UTPSGameplayAbility> Ability = nullptr;
+
+    UPROPERTY(EditDefaultsOnly)
+    int32 AbilityLevel = 1;
+
+    UPROPERTY(EditDefaultsOnly, Meta = (Categories = "InputTag"))
+    FGameplayTag InputTag;
+};
+
+USTRUCT(BlueprintType)
+struct FTPSAbilitySet_GrantedHandles
+{
+    GENERATED_BODY()
+
+public:
+    void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle);
+
+protected:
+    UPROPERTY()
+    TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+
+    UPROPERTY()
+    TArray<FActiveGameplayEffectHandle> GameplayEffectHandles;
+
+    UPROPERTY()
+    TArray<TObjectPtr<UAttributeSet>> GrantedAttributeSets;
+};
+
+UCLASS()
+class TPS_API UTPSAbilitySet : public UPrimaryDataAsset
+{
+    GENERATED_BODY()
+
+public:
+    UTPSAbilitySet(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+    void GiveToAbilitySystem(UTPSAbilitySystemComponent* ASC, FTPSAbilitySet_GrantedHandles* OutGrantedHandles,
+                             UObject* SourceObject = nullptr) const;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Gameplay Abilities", meta=(TitleProperty=Ability))
+    TArray<FTPSAbilitySet_GameplayAbility> GrantedGameplayAbilities;
+};
+```
 
 
 
